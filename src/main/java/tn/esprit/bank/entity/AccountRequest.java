@@ -26,7 +26,6 @@ public class AccountRequest {
 
 
 
-    private List<String> papersList;
 
 
     public AccountRequest(List<BankAccount> bankAccounts) {
