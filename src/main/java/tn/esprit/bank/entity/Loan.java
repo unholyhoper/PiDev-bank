@@ -3,10 +3,7 @@ package tn.esprit.bank.entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 
 @Data
@@ -22,5 +19,8 @@ public class Loan {
     private String interest;
     private String duration ;
     private String payment;
+
+    @ManyToOne
+    private BankAccount bankAccount;
 
 }
