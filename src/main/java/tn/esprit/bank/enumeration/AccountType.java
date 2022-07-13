@@ -1,6 +1,8 @@
 package tn.esprit.bank.enumeration;
 
-public enum AccountType {
+import java.io.Serializable;
+
+public enum AccountType implements Serializable {
     CURRENT,
     SAVING
 

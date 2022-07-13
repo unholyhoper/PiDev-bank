@@ -5,16 +5,22 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@NoArgsConstructor
+
 @Data
+@NoArgsConstructor
 @Entity
-public class Notification {
+public class Loan {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Boolean status;
-    private String content;
+
+    private Double amount;
+    private String interest;
+    private String duration ;
+    private String payment;
 
     @ManyToOne
-    private BankAccount account;
+    private BankAccount bankAccount;
+
 }
