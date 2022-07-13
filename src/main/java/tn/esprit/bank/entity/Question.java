@@ -1,9 +1,6 @@
 package tn.esprit.bank.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,4 +16,12 @@ public class Question {
 	 
 	 
 	 private String title ;
+
+
+	 @ManyToOne
+	 private AbstractUser user;
+
+
+	 @OneToOne
+	 private Answer answer;
 }

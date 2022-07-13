@@ -21,16 +21,14 @@ public class AccountRequest {
     private AccountType accountType;
 
 
-    @OneToMany
-    private List<BankAccount> bankAccounts;
+    @ManyToOne
+    private AbstractUser user;
 
 
 
 
 
-    public AccountRequest(List<BankAccount> bankAccounts) {
-        this.bankAccounts = bankAccounts;
+    public AccountRequest(AccountType accountType) {
+        this.accountType = accountType;
     }
-
-
 }
