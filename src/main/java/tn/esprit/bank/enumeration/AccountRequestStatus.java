@@ -1,6 +1,8 @@
 package tn.esprit.bank.enumeration;
 
-public enum AccountRequestStatus {
+import java.io.Serializable;
+
+public enum AccountRequestStatus implements Serializable {
     CREATED,
     PENDING,
     CONFIRMED,
