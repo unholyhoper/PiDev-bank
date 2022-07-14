@@ -18,7 +18,7 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/register")
-    private ResponseEntity<AbstractUser> saveBook(@RequestBody MoralUser user) {
+    private ResponseEntity<AbstractUser> saveUser(@RequestBody MoralUser user) {
         if (userService.getUserByCin(user.getCin()) != null) {
             return new ResponseEntity("Cin already exists", HttpStatus.FORBIDDEN);
         } else {
