@@ -26,12 +26,21 @@ public class TransactionService implements ITransactionService {
     @Override
     public Transaction createTransaction(TransactionVO transactionVO) {
 
+        if(transactionVO.getAccountNumberFrom()== null){
+            throw  new RuntimeException("Account number from should not be null");
+        }
+        if(transactionVO.getAccountNumberTo()== null){
+            throw  new RuntimeException("Account number To should not be null");
+        }
+        if(transactionVO.getAmount()== null || transactionVO.getAmount()== 0){
+            throw  new RuntimeException("the amount to transfer should be > 0");
+        }
         BankAccount bankAccountFrom = bankAccountRepository.findById(transactionVO.getAccountNumberFrom().longValue()).orElseThrow(() ->
-                new RuntimeException("There is no Transaction found with ID = " + transactionVO.getAccountNumberFrom())
+                new RuntimeException("There is no Bank account found with ID = " + transactionVO.getAccountNumberFrom())
         );
 
         BankAccount bankAccountTo = bankAccountRepository.findById(transactionVO.getAccountNumberTo().longValue()).orElseThrow(() ->
-                new RuntimeException("There is no Transaction found with ID = " + transactionVO.getAccountNumberTo())
+                new RuntimeException("There is no Bank Account found with ID = " + transactionVO.getAccountNumberTo())
         );
 
         Transaction transaction = new Transaction();
