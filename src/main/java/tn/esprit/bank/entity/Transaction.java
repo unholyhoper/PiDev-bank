@@ -3,11 +3,9 @@ package tn.esprit.bank.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import tn.esprit.bank.enumeration.TransactionStatus;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Data
@@ -24,8 +22,16 @@ public class Transaction {
 
     private String type;
 
-    private String status;
+    private TransactionStatus status;
 
     private Date date;
+
+
+    @ManyToOne
+    private BankAccount bankAccountFrom;
+
+
+    @ManyToOne
+    private BankAccount bankAccountTo;
 
 }
