@@ -34,4 +34,5 @@ public class Transaction {
     @ManyToOne
     private BankAccount bankAccountTo;
 
+
 }
