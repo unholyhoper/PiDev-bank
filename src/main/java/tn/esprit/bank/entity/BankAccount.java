@@ -2,6 +2,8 @@ package tn.esprit.bank.entity;
 
 
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +12,7 @@ import tn.esprit.bank.enumeration.AccountType;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 
 @Data
@@ -22,11 +25,13 @@ public abstract class BankAccount {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
 
-    private BigDecimal accountNumber;
+    private String type;
+
+    private BigInteger accountNumber;
 
     private Date initialDate;
 
-    private float balance;
+    private BigDecimal balance;
 
     @ManyToOne
     private AccountRequest accountRequest;
@@ -34,9 +39,10 @@ public abstract class BankAccount {
     @ManyToOne
     private AbstractUser user;
 
-    public BankAccount(BigDecimal accountNumber, AbstractUser user, Date initialDate, float balance,AccountRequest accountRequest) {
+    public BankAccount(BigInteger accountNumber, AbstractUser user, Date initialDate, BigDecimal balance,AccountRequest accountRequest) {
         this.accountNumber = accountNumber;
         this.user = user;
+        this.balance = balance;
         this.accountRequest = accountRequest;
         this.initialDate = initialDate;
     }

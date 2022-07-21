@@ -2,6 +2,7 @@ package tn.esprit.bank.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 import tn.esprit.bank.enumeration.AccountRequestStatus;
 import tn.esprit.bank.enumeration.AccountType;
 
@@ -21,11 +22,17 @@ public class AccountRequest {
 
     private AccountType accountType;
 
-    private AccountRequestStatus status;
+    private AccountRequestStatus status = AccountRequestStatus.CREATED;
 
 
     @ElementCollection(targetClass=String.class)
     private List<String> papersListUrls;
+
+
+    private float interestRate;
+
+    private float savingAmount;
+
 
 
     @ManyToOne
