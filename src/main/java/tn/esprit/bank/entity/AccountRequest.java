@@ -2,6 +2,8 @@ package tn.esprit.bank.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
+import tn.esprit.bank.enumeration.AccountRequestStatus;
 import tn.esprit.bank.enumeration.AccountType;
 
 import javax.persistence.*;
@@ -20,6 +22,18 @@ public class AccountRequest {
 
     private AccountType accountType;
 
+    private AccountRequestStatus status = AccountRequestStatus.CREATED;
+
+
+    @ElementCollection(targetClass=String.class)
+    private List<String> papersListUrls;
+
+
+    private float interestRate;
+
+    private float savingAmount;
+
+
 
     @ManyToOne
     private AbstractUser user;
@@ -28,7 +42,8 @@ public class AccountRequest {
 
 
 
-    public AccountRequest(AccountType accountType) {
+    public AccountRequest(AccountType accountType,List<String> papersListUrls) {
         this.accountType = accountType;
+        this.papersListUrls = papersListUrls;
     }
 }

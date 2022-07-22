@@ -2,19 +2,26 @@ package tn.esprit.bank.entity;
 
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Entity;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Date;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
 public class SavingAccount extends BankAccount{
 
-    private int savingAmount;
+    private float savingAmount;
 
-    public SavingAccount(int accountNumber, AbstractUser user, AccountRequest accountRequest, int savingAmount) {
-        super(accountNumber, user, accountRequest);
+
+    public SavingAccount(BigInteger accountNumber, AbstractUser user, Date initialDate, BigDecimal balance, AccountRequest accountRequest, float savingAmount) {
+        super(accountNumber, user, initialDate, balance, accountRequest);
         this.savingAmount = savingAmount;
     }
 }
