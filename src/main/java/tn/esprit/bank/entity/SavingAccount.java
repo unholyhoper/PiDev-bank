@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.Entity;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 
 @Getter
@@ -16,10 +17,11 @@ import java.util.Date;
 @Entity
 public class SavingAccount extends BankAccount{
 
-    private int savingAmount;
+    private float savingAmount;
 
 
-    public SavingAccount(BigDecimal accountNumber, AbstractUser user, Date initialDate, float balance, AccountRequest accountRequest) {
+    public SavingAccount(BigInteger accountNumber, AbstractUser user, Date initialDate, BigDecimal balance, AccountRequest accountRequest, float savingAmount) {
         super(accountNumber, user, initialDate, balance, accountRequest);
+        this.savingAmount = savingAmount;
     }
 }
