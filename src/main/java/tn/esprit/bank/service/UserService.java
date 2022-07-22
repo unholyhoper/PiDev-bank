@@ -8,6 +8,12 @@ public interface UserService extends UserDetailsService {
 
     public AbstractUser saveUser(AbstractUser user);
 
-    public AbstractUser getUserByCin(Long id);
+    public AbstractUser getUserByCin(Long cin);
+
+    public AbstractUser getUserById(Long id);
+
+    public boolean checkPasswordMatch(String password,AbstractUser user);
+
+    public boolean checkEmailValid(String email);
 
 }

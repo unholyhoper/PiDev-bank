@@ -38,7 +38,9 @@ public abstract class AbstractUser implements Serializable, UserDetails {
 
     private String country;
 
+    private String email;
 
+    private boolean isEnabled;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
@@ -86,6 +88,6 @@ public abstract class AbstractUser implements Serializable, UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isEnabled;
     }
 }
