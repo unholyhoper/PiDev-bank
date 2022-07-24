@@ -60,6 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // dont authenticate this particular request
                 .authorizeRequests().antMatchers("/authenticate").permitAll()
                 .antMatchers(APP_ROOT+"/user/register").permitAll()
+                .antMatchers(APP_ROOT+"/user/changePassword").permitAll()
                 .antMatchers(APP_ROOT+"/user/**").permitAll()
                 .antMatchers(APP_ROOT+"/user/activate",APP_ROOT+"/user/deactivate").hasAuthority("BANKER")
                 .antMatchers("gestionbancaire/**").permitAll().
