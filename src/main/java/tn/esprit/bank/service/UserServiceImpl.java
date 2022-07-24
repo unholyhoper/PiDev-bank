@@ -5,11 +5,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tn.esprit.bank.entity.AbstractUser;
-import tn.esprit.bank.entity.MoralUser;
-import tn.esprit.bank.entity.Role;
+import tn.esprit.bank.entity.PasswordResetToken;
+import tn.esprit.bank.repository.PasswordResetTokenRepository;
 import tn.esprit.bank.repository.UserRepository;
 
-import java.util.Collection;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,6 +17,10 @@ import java.util.regex.Pattern;
 public class UserServiceImpl implements UserService {
     private Pattern regexPattern;
     private Matcher regMatcher;
+
+    @Autowired
+    private PasswordResetTokenRepository passwordTokenRepository;
+
 
     @Autowired
     UserRepository userRepository;
@@ -64,4 +68,30 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public AbstractUser getUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
+    }
+
+    @Override
+    public void createPasswordResetTokenForUser(AbstractUser user, String token) {
+        final PasswordResetToken myToken = new PasswordResetToken(token, user);
+        passwordTokenRepository.save(myToken);
+    }
+
+    @Override
+    public PasswordResetToken getPasswordResetToken(final String token) {
+        return passwordTokenRepository.findByToken(token);
+    }
+
+    @Override
+    public Optional<AbstractUser> getUserByPasswordResetToken(final String token) {
+        return Optional.ofNullable(passwordTokenRepository.findByToken(token) .getUser());
+    }
+
+    @Override
+    public void changeUserPassword(final AbstractUser user, final String password) {
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
+    }
 }
