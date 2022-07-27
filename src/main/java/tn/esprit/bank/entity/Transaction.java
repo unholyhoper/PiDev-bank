@@ -4,6 +4,7 @@ package tn.esprit.bank.entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import tn.esprit.bank.enumeration.TransactionStatus;
+import tn.esprit.bank.enumeration.TransactionType;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -20,7 +21,7 @@ public class Transaction {
 
     private Double amount;
 
-    private String type;
+    private TransactionType type;
 
     private TransactionStatus status;
 

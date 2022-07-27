@@ -19,6 +19,4 @@ public interface IBankAccountService {
     SavingAccount createSavingAccount(Long accountRequestId);
 
 
-
-    void createBankAccount(BankAccount bankAccount);
 }

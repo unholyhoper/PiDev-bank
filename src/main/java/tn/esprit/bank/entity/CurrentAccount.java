@@ -9,6 +9,7 @@ import tn.esprit.bank.enumeration.AccountType;
 
 import javax.persistence.Entity;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 
 @NoArgsConstructor
@@ -19,7 +20,7 @@ public class CurrentAccount extends  BankAccount {
     private float interestRate;
 
 
-    public CurrentAccount(BigDecimal accountNumber, AbstractUser user, Date initialDate, float balance, AccountRequest accountRequest, float interestRate) {
+    public CurrentAccount(BigInteger accountNumber, AbstractUser user, Date initialDate, BigDecimal balance, AccountRequest accountRequest, float interestRate) {
         super(accountNumber, user, initialDate, balance, accountRequest);
         this.interestRate = interestRate;
     }
