@@ -15,4 +15,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "MORAL_USER")
 public class MoralUser extends AbstractUser {
+    public MoralUser(String firstname, String secname, String last, String test) {
+    }
 }

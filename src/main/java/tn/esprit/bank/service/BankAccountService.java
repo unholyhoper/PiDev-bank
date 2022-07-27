@@ -2,14 +2,19 @@ package tn.esprit.bank.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tn.esprit.bank.entity.BankAccount;
-import tn.esprit.bank.entity.CurrentAccount;
-import tn.esprit.bank.entity.SavingAccount;
+import tn.esprit.bank.entity.*;
+import tn.esprit.bank.repository.AccountRequestRepository;
 import tn.esprit.bank.repository.BankAccountRepository;
 import tn.esprit.bank.repository.CurrentAccountRepository;
 import tn.esprit.bank.repository.SavingAccountRepository;
+import tn.esprit.bank.service.externalService.AccountNumberGenerator;
+import tn.esprit.bank.util.ApplicationTiming;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BankAccountService implements IBankAccountService {
@@ -23,6 +28,16 @@ public class BankAccountService implements IBankAccountService {
 
     @Autowired
     BankAccountRepository bankAccountRepository;
+
+    @Autowired
+    AccountNumberGenerator accountNumberGenerator;
+
+    @Autowired
+    AccountRequestRepository accountRequestRepository;
+
+    @Autowired
+    ApplicationTiming applicationTiming;
+
 
 
     @Override
@@ -42,37 +57,51 @@ public class BankAccountService implements IBankAccountService {
 
     @Override
     public CurrentAccount findCurrentAccountById(Long id) {
-
-        /// TODO: test on presence before getting it
-        return currentAccountRepository.findById(id).get();
+        if(currentAccountRepository.findById(id).isPresent()) {
+            return currentAccountRepository.findById(id).get();
+        }else{
+            return null;
+        }
     }
 
     @Override
     public SavingAccount findSavingAccountById(Long id) {
-        /// TODO: test on presence before getting it
-        return savingAccountRepository.findById(id).get();
+        if(savingAccountRepository.findById(id).isPresent()) {
+            return savingAccountRepository.findById(id).get();
+        }else {
+            return null;
+        }
     }
 
     @Override
     public CurrentAccount createCurrentAccount(Long accountRequestId) {
-        /// TODO: create a bankAccount constructor from accountRequest
-        return null;
+        Optional<AccountRequest> accountRequestOptional = accountRequestRepository.findById(accountRequestId);
+        if(accountRequestOptional.isPresent()){
+            AccountRequest accountRequest = accountRequestOptional.get();
+            System.out.println(accountNumberGenerator.generateAccountNumber());
+            CurrentAccount currentAccount = new CurrentAccount(accountNumberGenerator.generateAccountNumber(),
+                    accountRequest.getUser(),applicationTiming.getInstantDateTime(),BigDecimal.TEN,
+                    accountRequest,accountRequest.getInterestRate());
+            currentAccountRepository.save(currentAccount);
+            return currentAccount;
+        }else{
+            return null;
+        }
     }
 
     @Override
     public SavingAccount createSavingAccount(Long accountRequestId) {
-        /// TODO: create a bankAccount constructor from accountRequest
-        return null;
-    }
-
-    @Override
-    public void createBankAccount(BankAccount bankAccount) {
-        if(bankAccount instanceof CurrentAccount){
-            System.out.println("current");
-        }else if (bankAccount instanceof SavingAccount){
-            System.out.println("saving");
+        Optional<AccountRequest> accountRequestOptional = accountRequestRepository.findById(accountRequestId);
+        if(accountRequestOptional.isPresent()){
+            AccountRequest accountRequest = accountRequestOptional.get();
+            SavingAccount savingAccount = new SavingAccount(accountNumberGenerator.generateAccountNumber(),
+                    accountRequest.getUser(),applicationTiming.getInstantDateTime(),BigDecimal.TEN,
+                    accountRequest,accountRequest.getSavingAmount());
+            savingAccountRepository.save(savingAccount);
+            return savingAccount;
         }else{
-            System.out.println("neither");
+            return null;
         }
     }
+
 }

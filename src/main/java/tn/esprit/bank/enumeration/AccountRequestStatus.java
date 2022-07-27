@@ -7,5 +7,7 @@ public enum AccountRequestStatus implements Serializable {
     PENDING,
     CONFIRMED,
     VALIDATED,
-    ACCEPTED
+    ACCEPTED,
+    REOPENED,
+    REJECTED
 }

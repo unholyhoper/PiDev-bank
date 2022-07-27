@@ -16,6 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static tn.esprit.bank.util.Constants.APP_ROOT;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -56,8 +58,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // We don't need CSRF for this example
         httpSecurity.csrf().disable()
                 // dont authenticate this particular request
-                .authorizeRequests().antMatchers("/authenticate").permitAll().
-                antMatchers("gestionbancaire/**").permitAll().
+                .authorizeRequests().antMatchers("/authenticate").permitAll()
+                .antMatchers(APP_ROOT+"/user/register").permitAll()
+                .antMatchers(APP_ROOT+"/user/changePassword").permitAll()
+                .antMatchers(APP_ROOT+"/user/**").permitAll()
+                .antMatchers(APP_ROOT+"/user/activate",APP_ROOT+"/user/deactivate").hasAuthority("BANKER")
+                .antMatchers("gestionbancaire/**").permitAll().
 
                 // all other requests need to be authenticated
                 and().
