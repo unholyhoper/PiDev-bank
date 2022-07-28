@@ -33,7 +33,7 @@ public class TransactionPeriodicBatch {
 
 
 
-    @Scheduled(cron = "0 41 0 * * *")
+    @Scheduled(cron = "0 14 23 * * *")
     public void  createTransactionPeriodic() {
 
         List<TransactionPeriodic> listeTransactionPeriodic = transactionPeriodicRepository.findAllByStatusAndNextDate( TransactionStatus.CREATED, LocalDate.now());
