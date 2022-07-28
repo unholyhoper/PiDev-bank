@@ -32,10 +32,10 @@ public class ValidateTransactionBatch {
                     BankAccount bankAccountFrom = transaction.getBankAccountFrom();
                     BankAccount bankAccountTo = transaction.getBankAccountTo();
                     if (bankAccountFrom != null) {
-                        bankAccountFrom.setBalance(bankAccountFrom.getBalance() - transaction.getAmount().longValue());
+                        bankAccountFrom.setBalance(bankAccountFrom.getBalance().subtract(transaction.getAmount()));
                     }
                     if (bankAccountTo != null) {
-                        bankAccountTo.setBalance(bankAccountTo.getBalance() + transaction.getAmount().longValue());
+                        bankAccountTo.setBalance(bankAccountTo.getBalance().add(transaction.getAmount()));
                     }
                     transaction.setStatus(TransactionStatus.VALIDATED);
                     transactionRepository.save(transaction);

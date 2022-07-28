@@ -11,7 +11,7 @@ public class TransactionPeriodicVO {
 
     private BigDecimal accountNumberFrom;
     private BigDecimal accountNumberTo;
-    private Double amount;
+    private BigDecimal amount;
     private Periodicity periodicity;
     private Date startDate;
 

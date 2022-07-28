@@ -11,6 +11,7 @@ import tn.esprit.bank.repository.BankAccountRepository;
 import tn.esprit.bank.repository.TransactionRepository;
 import tn.esprit.bank.vo.TransactionVO;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +29,7 @@ public class TransactionService implements ITransactionService {
     TransactionService transactionService;
 
 
-    public Transaction createTransaction(TransactionType transactionType, BankAccount bankAccountFrom, BankAccount bankAccountTo, Double amount) {
+    public Transaction createTransaction(TransactionType transactionType, BankAccount bankAccountFrom, BankAccount bankAccountTo, BigDecimal amount) {
 
         Transaction transaction = new Transaction();
         transaction.setStatus(TransactionStatus.PENDING);
@@ -53,7 +54,7 @@ public class TransactionService implements ITransactionService {
         if ((transactionType.isVirement() || transactionType.isVersement()) && transactionVO.getAccountNumberTo() == null) {
             throw new RuntimeException("Account number To should not be null");
         }
-        if (transactionVO.getAmount() == null || transactionVO.getAmount() == 0) {
+        if (transactionVO.getAmount() == null || transactionVO.getAmount().equals(BigDecimal.ZERO)) {
             throw new RuntimeException("the amount to transfer should be > 0");
         }
     }

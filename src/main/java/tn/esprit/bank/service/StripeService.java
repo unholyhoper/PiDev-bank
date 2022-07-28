@@ -1,11 +1,12 @@
 package tn.esprit.bank.service;
 
 import com.stripe.Stripe;
-import com.stripe.exception.*;
 import com.stripe.model.Charge;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import tn.esprit.bank.entity.ChargeRequest;
+import com.stripe.exception.StripeException;
+import tn.esprit.bank.vo.ChargeRequestVO;
+
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -21,9 +22,9 @@ public class StripeService {
     public void init() {
         Stripe.apiKey = secretKey;
     }
-    public Charge charge(ChargeRequest chargeRequest)
-            throws AuthenticationException, InvalidRequestException,
-            APIConnectionException, CardException, APIException {
+
+    public Charge charge(ChargeRequestVO chargeRequest)
+            throws StripeException {
         Map<String, Object> chargeParams = new HashMap<>();
         chargeParams.put("amount", chargeRequest.getAmount());
         chargeParams.put("currency", chargeRequest.getCurrency());

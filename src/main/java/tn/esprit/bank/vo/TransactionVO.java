@@ -9,7 +9,7 @@ public class TransactionVO {
 
     private BigDecimal accountNumberFrom;
     private BigDecimal accountNumberTo;
-    private Double amount;
+    private BigDecimal amount;
 
 
 

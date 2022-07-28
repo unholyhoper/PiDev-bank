@@ -59,6 +59,4 @@ public class TransactionPeriodicBatch {
         transactionPeriodic.setNextDate(transactionPeriodic.getNextDate().plus(1, period));
         return transaction;
 
-    }
-
-}
+}}

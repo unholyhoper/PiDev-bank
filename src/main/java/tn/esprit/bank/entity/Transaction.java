@@ -7,6 +7,7 @@ import tn.esprit.bank.enumeration.TransactionStatus;
 import tn.esprit.bank.enumeration.TransactionType;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
@@ -19,7 +20,7 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
 
-    private Double amount;
+    private BigDecimal amount;
 
     private TransactionType type;
 

@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.ManyToOne;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -21,7 +22,7 @@ public class TransactionPeriodic {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
     private TransactionStatus status;
-    private Double amount;
+    private BigDecimal amount;
     private Periodicity periodicity;
     private LocalDate startDate;
     private LocalDate nextDate;
