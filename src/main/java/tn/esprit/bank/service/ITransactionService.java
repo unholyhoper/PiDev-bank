@@ -10,8 +10,9 @@ public interface ITransactionService {
 
     List<Transaction> findAllTransactions() ;
 
-    Transaction createTransaction(TransactionVO transactionVO) ;
+    Transaction createTransactionVirement(TransactionVO transactionVO) ;
+    Transaction createTransactionVersement(TransactionVO transactionVO) ;
+    Transaction createTransactionRetrait(TransactionVO transactionVO) ;
 
-
-    Optional<Transaction> findTransactionById(Long transactionId);
+    Transaction findTransactionById(Long transactionId);
 }
