@@ -6,5 +6,6 @@ public enum TransactionStatus implements Serializable {
     CREATED,
     PENDING,
     CANCELED,
-    VALIDATED
+    VALIDATED,
+    REFUSED
 }
