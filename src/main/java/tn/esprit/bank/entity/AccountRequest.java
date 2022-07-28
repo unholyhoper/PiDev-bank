@@ -1,7 +1,9 @@
 package tn.esprit.bank.entity;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.lang.Nullable;
 import tn.esprit.bank.enumeration.AccountRequestStatus;
 import tn.esprit.bank.enumeration.AccountType;
