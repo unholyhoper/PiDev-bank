@@ -2,9 +2,12 @@ package tn.esprit.bank.entity;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import tn.esprit.bank.enumeration.AccountType;
+import tn.esprit.bank.enumeration.QuestionStatus;
 @Data
 @Entity
 @NoArgsConstructor
@@ -17,11 +20,19 @@ public class Question {
 	 
 	 private String title ;
 
+	 private String description ;
+	 
+	 @Column(name = "status")
+	    @Enumerated(EnumType.STRING)
+	    private QuestionStatus status;
+	 
+   @OneToOne(mappedBy = "question",cascade =  CascadeType.ALL)
+   @JsonIgnore
+   private Answer answer ;
+
 
 	 @ManyToOne
 	 private AbstractUser user;
 
 
-	 @OneToOne
-	 private Answer answer;
 }
