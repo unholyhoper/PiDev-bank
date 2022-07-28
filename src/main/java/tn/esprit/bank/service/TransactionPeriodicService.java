@@ -15,6 +15,7 @@ import tn.esprit.bank.repository.TransactionRepository;
 import tn.esprit.bank.vo.TransactionPeriodicVO;
 import tn.esprit.bank.vo.TransactionVO;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -90,7 +91,7 @@ public class TransactionPeriodicService implements ITransactionPeriodicService {
         if (transactionPeriodicVO.getAccountNumberTo() == null) {
             throw new RuntimeException("Account number To should not be null");
         }
-        if (transactionPeriodicVO.getAmount() == null || transactionPeriodicVO.getAmount() == 0) {
+        if (transactionPeriodicVO.getAmount() == null || transactionPeriodicVO.getAmount().equals(BigDecimal.ZERO)) {
             throw new RuntimeException("the amount to transfer should be > 0");
         }
     }
