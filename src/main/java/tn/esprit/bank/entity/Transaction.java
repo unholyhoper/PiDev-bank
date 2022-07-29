@@ -30,12 +30,12 @@ public class Transaction {
     private Date date;
 
 
-    @ManyToOne
-    private BankAccount bankAccountFrom;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private CurrentAccount bankAccountFrom;
 
 
-    @ManyToOne
-    private BankAccount bankAccountTo;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private CurrentAccount bankAccountTo;
 
 
 }

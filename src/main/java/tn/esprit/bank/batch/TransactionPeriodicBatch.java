@@ -13,8 +13,6 @@ import tn.esprit.bank.service.TransactionService;
 
 import java.time.LocalDate;
 import java.time.temporal.TemporalUnit;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,8 +31,8 @@ public class TransactionPeriodicBatch {
 
 
 
-    @Scheduled(cron = "0 14 23 * * *")
-    public void  createTransactionPeriodic() {
+    @Scheduled(cron = "0 * * * * *")
+    public void  createVirementAutomatique() {
 
         List<TransactionPeriodic> listeTransactionPeriodic = transactionPeriodicRepository.findAllByStatusAndNextDate( TransactionStatus.CREATED, LocalDate.now());
         List<Transaction> transactions = listeTransactionPeriodic.parallelStream()
@@ -46,7 +44,6 @@ public class TransactionPeriodicBatch {
 
 
     }
-
     private Transaction proccessTransactionPeriodic(TransactionPeriodic transactionPeriodic){
         Transaction transaction = transactionService.createTransaction(TransactionType.VIREMENT,
                 transactionPeriodic.getBankAccountFrom(),
@@ -59,4 +56,6 @@ public class TransactionPeriodicBatch {
         transactionPeriodic.setNextDate(transactionPeriodic.getNextDate().plus(1, period));
         return transaction;
 
-}}
+
+
+    }}
