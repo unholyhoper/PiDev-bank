@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import tn.esprit.bank.config.JsonLogging;
+import tn.esprit.bank.entity.CurrentAccount;
 import tn.esprit.bank.entity.Loan;
 import tn.esprit.bank.entity.LoanTranches;
 import tn.esprit.bank.exception.RessourceNotFoundException;
+import tn.esprit.bank.repository.CurrentAccountRepository;
 import tn.esprit.bank.repository.LoanRepository;
 import tn.esprit.bank.repository.LoanTranchesRepository;
 
@@ -36,17 +38,34 @@ public class LoanServiceImpl implements ILoanService {
     LoanRepository loanRepository;
     @Autowired
     LoanTranchesRepository loanTranchesRepository;
+    @Autowired
+    CurrentAccountRepository currentAccountRepository;
     @Override
     public Loan createLoanRequest(Loan loan) throws Exception {
-        if(loan.getDuration()<1 || loan.getDuration()>12){
+        Double accountBalance =null;
+        if(loan.getDuration()<1 || loan.getDuration()>60){
             throw new Exception("Duration should be by month");
         }
-        if(loan.getBankAccount().getBalance()==null) {
-        throw new Exception("Please terminate your account information we need your account balance to verify the loan");
+        CurrentAccount currentAccount = currentAccountRepository.findById(loan.getBankAccount().getId())
+                .orElseThrow(() -> new RuntimeException("There is no Account found with ID = " + loan.getBankAccount().getId()));
+        try {
+            accountBalance =Double.parseDouble(String.valueOf(currentAccount.getBalance()));
+
+        }catch (Exception e){
+            throw new Exception("Please terminate your account information we need your account balance to verify the loan");
+
         }
-        Double accountBalance =Double.parseDouble(String.valueOf(loan.getBankAccount().getBalance()));
+        Double loanAmount = loan.getAmount();
+        String interest =loan.getInterest().substring(0, loan.getInterest().length() - 1);
+        Double interestPercent = Double.parseDouble(interest);
+        Double loanAmountWithInterest = ((loanAmount*interestPercent)/100)+loanAmount;
+        Double loanPaymentNeeded = loanAmountWithInterest/loan.getDuration();
         Double payment = Double.parseDouble(loan.getPayment());
         Double poucentage = (accountBalance*40)/100;
+        if(loanPaymentNeeded>poucentage){
+            throw new Exception("you can't have this loan the max amount you can pay per month to our bank is : "+poucentage +" for the duration you indicated you should pay : "+ loanPaymentNeeded + " so please modify the duration or the loan amount" );
+        }
+        JsonLogging.printJson(poucentage);
         if(payment>poucentage){
             throw new Exception("you can't have this loan the max amount you can pay to our bank is : "+poucentage);
         }
@@ -104,6 +123,7 @@ public class LoanServiceImpl implements ILoanService {
         updateLoan.setAmount(newLoan.getAmount() != null ? newLoan.getAmount() : updateLoan.getAmount());
         updateLoan.setInterest(newLoan.getInterest() != null ? newLoan.getInterest() : updateLoan.getInterest());
         updateLoan.setPayment(newLoan.getPayment() != null ? newLoan.getPayment() : updateLoan.getPayment());
+        updateLoan.setLoanStatus(newLoan.getLoanStatus() != null ? newLoan.getLoanStatus() : updateLoan.getLoanStatus());
         updateLoan.setBankAccount(newLoan.getBankAccount() != null ? newLoan.getBankAccount() : updateLoan.getBankAccount());
         return loanRepository.save(updateLoan);
 

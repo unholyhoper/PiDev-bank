@@ -73,6 +73,20 @@ public class QuestionController {
 	     }
 	    }
 	    
+	    
+	    
+	    @PostMapping("/createQuestionSentimental")
+	    public ResponseEntity<Question> createQuestionSentimental(@RequestBody Question question){
+	     try {
+	    	 question.setSentiment(SentimentalAnalysisController.getSentiment(question.getTitle()));
+	    	 questionServiceImpl.createQuestion(question);
+	         return ResponseEntity.ok(question);
+	     }catch (Exception e){
+	         ResponseEntity.badRequest().build();
+	         return ResponseEntity.badRequest().build();
+	     }
+	    }
+	    
 
 	    
 	    @PutMapping("/updateQuestion/{questionId}/{status}")
@@ -96,6 +110,16 @@ public class QuestionController {
 	     }
 
           }
-	    
 
+		@RequestMapping(value = "/getCountQuestion")
+		public String getcountrecs() {
+			return "The registered Qustion number is "+ questionServiceImpl.getcountQuestion();
+			
+		}
+	    
+		@RequestMapping("/PendingQuestion")
+		public List<Question> getquestionPend() {
+			List<Question> questionPending = questionServiceImpl.getQuestionPend();
+			return questionPending;
+		}
 }
