@@ -99,7 +99,7 @@ public class QuestionServiceImpl implements IQuestionService  {
 	        paragraph.setAlignment(Paragraph.ALIGN_CENTER);
 	        Font fontParagraph = FontFactory.getFont(FontFactory.HELVETICA);
 	        fontParagraph.setSize(12);
-	        Paragraph paragraph2 = new Paragraph("This is a paragraph.", fontParagraph);
+	        Paragraph paragraph2 = new Paragraph("You will find below a list of the questions asked", fontParagraph);
 	        paragraph2.setAlignment(Paragraph.ALIGN_LEFT);
 	        document.add(paragraph);
 	        
@@ -119,15 +119,15 @@ public class QuestionServiceImpl implements IQuestionService  {
 	public void writeQuestionHeader(PdfPTable tb)
 	{
       PdfPCell cell = new PdfPCell();
-      cell.setBackgroundColor(Color.orange);
+      cell.setBackgroundColor(Color.ORANGE);
       cell.setPadding(5);
       Font font = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
       font.setColor(Color.white);
-      cell.setPhrase(new Phrase("id",font));
+      cell.setPhrase(new Phrase("Title",font));
       tb.addCell(cell);
-      cell.setPhrase(new Phrase("title",font));
+      cell.setPhrase(new Phrase("status",font));
       tb.addCell(cell);
-      cell.setPhrase(new Phrase("description",font));
+      cell.setPhrase(new Phrase("sentiment",font));
       tb.addCell(cell);
 	}
 	
@@ -135,9 +135,12 @@ public class QuestionServiceImpl implements IQuestionService  {
 	{
 	for(Question question :liste)
 		{
-			tb.addCell(String.valueOf(question.getId()));
 			tb.addCell(question.getTitle());
-			tb.addCell(question.getDescription());
+			
+					tb.addCell(String.valueOf(question.getStatus()));
+
+			tb.addCell(String.valueOf(question.getSentiment()));
+
 
 		}
       
@@ -145,8 +148,16 @@ public class QuestionServiceImpl implements IQuestionService  {
 
 
 	}
+	public int getcountQuestion() {
+		// TODO Auto-generated method stub
+		return questionRepository.getcountrecs();
+	}
 	
 	
-	 
+	public List<Question> getQuestionPend() {
+		// TODO Auto-generated method stub
+		return questionRepository.getQuestionPend();
+	}
+
 	
 }
