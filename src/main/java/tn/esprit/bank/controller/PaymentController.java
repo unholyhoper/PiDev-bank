@@ -7,7 +7,6 @@ import com.stripe.model.checkout.SessionCollection;
 import com.stripe.param.checkout.SessionCreateParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.bank.service.StripeService;
@@ -15,8 +14,6 @@ import tn.esprit.bank.vo.ChargeRequestVO;
 import tn.esprit.bank.vo.PaiementCheckOutVO;
 
 import javax.annotation.PostConstruct;
-import javax.xml.crypto.Data;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +21,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/charge")
-public class ChargeController {
+public class PaymentController {
 
     @Autowired
     private StripeService paymentsService;
@@ -46,6 +43,7 @@ public class ChargeController {
                         .setMode(SessionCreateParams.Mode.PAYMENT)
                         .setSuccessUrl("https://example.com/success")
                         .setCancelUrl("https://example.com/cancel")
+                        .setClientReferenceId(chargeRequest.getUserAccountNo())
                         .addLineItem(
                                 SessionCreateParams.LineItem.builder()
                                         .setQuantity(chargeRequest.getQuantity())
@@ -70,11 +68,10 @@ public class ChargeController {
             throws StripeException {
         Map<String, Object> params = new HashMap<>();
         params.put("limit", 100);
-        System.out.println("hello"+ new Date());
 
         SessionCollection sessions = Session.list(params);
         return sessions.getData().stream().map(session ->
-                new PaiementCheckOutVO(session.getId(),session.getPaymentIntent(),session.getPaymentStatus(),session.getStatus())
+                new PaiementCheckOutVO(session.getId(),session.getPaymentIntent(),session.getPaymentStatus(),session.getStatus(),session.getClientReferenceId())
         ).collect(Collectors.toList());
 
     }

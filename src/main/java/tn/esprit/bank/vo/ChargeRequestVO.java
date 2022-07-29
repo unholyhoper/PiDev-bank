@@ -10,7 +10,7 @@ public class ChargeRequestVO {
     private long amount;
     private long quantity;
     private String currency;
-    private String stripeEmail;
+    private String userAccountNo;
     private String stripeToken;
     private String productName;
 

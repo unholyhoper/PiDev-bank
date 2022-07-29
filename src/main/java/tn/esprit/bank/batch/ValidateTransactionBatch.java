@@ -21,7 +21,7 @@ public class ValidateTransactionBatch {
     @Autowired
     TransactionRepository transactionRepository;
 
-    @Scheduled(cron = "0 24 23 * * *")
+    @Scheduled(cron = "0 31 2 * * *")
     public void validateTransaction() {
         List<Transaction> listeTransaction = transactionRepository.findAllByStatus(TransactionStatus.PENDING);
         List<Transaction> listTransactionValidated = listeTransaction.parallelStream().peek(transaction ->

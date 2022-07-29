@@ -8,15 +8,18 @@ public class PaiementCheckOutVO {
 
 
     private String id;
-    private String payment_intent;
-    private String payment_status;
+    private String paymentIntent;
+    private String paymentStatus;
     private String status;
 
-    public PaiementCheckOutVO(String id, String payment_intent, String payment_status, String status){
+    private String clientReferenceId;
+
+    public PaiementCheckOutVO(String id, String paymentIntent, String paymentStatus, String status, String clientReferenceId){
         this.id=id;
-        this.payment_intent=payment_intent;
-        this.payment_status=payment_status;
+        this.paymentIntent=paymentIntent;
+        this.paymentStatus=paymentStatus;
         this.status=status;
+        this.clientReferenceId=clientReferenceId;
     }
 
 }
