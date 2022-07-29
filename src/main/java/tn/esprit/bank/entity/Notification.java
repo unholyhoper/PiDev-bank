@@ -2,6 +2,7 @@ package tn.esprit.bank.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import tn.esprit.bank.enumeration.NotificationStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,7 +15,7 @@ public class Notification implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Boolean status;
+    private NotificationStatus status;
     private String content;
 
     @ManyToOne
