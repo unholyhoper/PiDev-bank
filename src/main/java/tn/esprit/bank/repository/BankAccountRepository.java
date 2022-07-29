@@ -6,13 +6,14 @@ import org.springframework.stereotype.Repository;
 import tn.esprit.bank.entity.BankAccount;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Optional;
 
 
 @Repository
 public interface BankAccountRepository extends JpaRepository<BankAccount,Long> {
 
-    Optional<BankAccount> findBankAccountByAccountNumber(BigDecimal accountNumber);
+    Optional<BankAccount> findBankAccountByAccountNumber(BigInteger accountNumber);
 
 
 

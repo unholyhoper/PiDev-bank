@@ -5,13 +5,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import tn.esprit.bank.entity.BankAccount;
 import tn.esprit.bank.entity.Transaction;
-import tn.esprit.bank.entity.TransactionPeriodic;
 import tn.esprit.bank.enumeration.TransactionStatus;
 import tn.esprit.bank.repository.TransactionRepository;
 import tn.esprit.bank.service.TransactionService;
-import tn.esprit.bank.vo.TransactionVO;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +21,7 @@ public class ValidateTransactionBatch {
     @Autowired
     TransactionRepository transactionRepository;
 
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0 31 2 * * *")
     public void validateTransaction() {
         List<Transaction> listeTransaction = transactionRepository.findAllByStatus(TransactionStatus.PENDING);
         List<Transaction> listTransactionValidated = listeTransaction.parallelStream().peek(transaction ->
