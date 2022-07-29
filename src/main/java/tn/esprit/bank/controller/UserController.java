@@ -148,13 +148,8 @@ public class UserController {
     }
 
     private MailTemplate constructResetTokenEmail(final String contextPath, final Locale locale, final String token, final AbstractUser user) {
-        final String url = contextPath + "/user/changePassword?token=" + token;
-//        final String message = messages.getMessage("message.resetPassword", null, locale);*
-        String body = "Reset password" + " \r\n" + contextPath + "api/user/changePassword?token=" + token;
-//        MailTemplate mailTemplate = new MailTemplate(user.getEmail(),"Reset subject","",body);
-
+        String body = "Reset password" + " \r\n" + contextPath + "/api/user/changePassword?token=" + token;
         return new MailTemplate(user.getEmail(), "Reset subject", "", body);
-//        return constructEmail("Reset Password", "Reset password" + " \r\n" + url, user);
 
     }
 

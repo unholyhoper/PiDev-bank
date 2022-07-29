@@ -21,7 +21,8 @@ public class Question {
 	 private String title ;
 
 	 private String description ;
-	 
+	private String sentiment;
+
 	 @Column(name = "status")
 	    @Enumerated(EnumType.STRING)
 	    private QuestionStatus status;
