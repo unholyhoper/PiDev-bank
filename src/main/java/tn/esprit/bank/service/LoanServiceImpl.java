@@ -123,6 +123,7 @@ public class LoanServiceImpl implements ILoanService {
         updateLoan.setAmount(newLoan.getAmount() != null ? newLoan.getAmount() : updateLoan.getAmount());
         updateLoan.setInterest(newLoan.getInterest() != null ? newLoan.getInterest() : updateLoan.getInterest());
         updateLoan.setPayment(newLoan.getPayment() != null ? newLoan.getPayment() : updateLoan.getPayment());
+        updateLoan.setLoanStatus(newLoan.getLoanStatus() != null ? newLoan.getLoanStatus() : updateLoan.getLoanStatus());
         updateLoan.setBankAccount(newLoan.getBankAccount() != null ? newLoan.getBankAccount() : updateLoan.getBankAccount());
         return loanRepository.save(updateLoan);
 
