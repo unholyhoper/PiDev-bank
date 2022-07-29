@@ -7,7 +7,9 @@ public enum TransactionType implements Serializable {
 
     VIREMENT("VIREMENT"),
     RETRAIT("RETRAIT"),
-    VERSEMENT("VERSEMENT");
+    VERSEMENT("VERSEMENT"),
+
+    PAYMENT("PAYMENT");
     private String type;
 
     TransactionType(String type) {
@@ -33,6 +35,11 @@ public enum TransactionType implements Serializable {
     public Boolean isRetrait(){
 
         return RETRAIT.getType().equals(type);
+    }
+
+    public Boolean isPayment(){
+
+        return PAYMENT.getType().equals(type);
     }
 
 
