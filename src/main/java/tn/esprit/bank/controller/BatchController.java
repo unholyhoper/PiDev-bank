@@ -22,7 +22,7 @@ public class BatchController {
     public ResponseEntity transactionPeriodic() {
         try {
 
-            transactionPeriodicBatch.createTransactionPeriodic();
+            transactionPeriodicBatch.createVirementAutomatique();
             return ResponseEntity.ok("");
 
 

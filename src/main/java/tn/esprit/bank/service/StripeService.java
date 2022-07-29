@@ -29,7 +29,6 @@ public class StripeService {
         chargeParams.put("amount", chargeRequest.getAmount());
         chargeParams.put("currency", chargeRequest.getCurrency());
         chargeParams.put("description", chargeRequest.getDescription());
-        chargeParams.put("source", chargeRequest.getStripeToken());
         return Charge.create(chargeParams);
     }
 }
