@@ -43,16 +43,13 @@ public class AnswerController {
 	    
 	    
 	    @PostMapping("/createAnswer")
-	    public ResponseEntity<Answer> createAnswer(@RequestBody Answer answer ){
+	    public Answer createAnswer(@RequestBody Answer answer ){
 	  //  answer.setUser((AbstractUser)principal);
-	     try {
+
 	    	 
-	    	 answerServiceImpl.createAnswer(answer);
-	         return ResponseEntity.ok(answer);
-	     }catch (Exception e){
-	         ResponseEntity.badRequest().build();
-	         return ResponseEntity.badRequest().build();
-	     }
+	    	 
+	         return answerServiceImpl.createAnswer(answer);
+	     
 	    }
 	    
 	    @DeleteMapping("deleteAnswerById")
