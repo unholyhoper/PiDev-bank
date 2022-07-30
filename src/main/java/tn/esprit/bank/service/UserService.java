@@ -4,6 +4,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import tn.esprit.bank.entity.AbstractUser;
 import tn.esprit.bank.entity.PasswordResetToken;
 
+import java.util.Collection;
 import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
@@ -28,6 +29,8 @@ public interface UserService extends UserDetailsService {
     Optional<AbstractUser> getUserByPasswordResetToken(String token);
 
     void changeUserPassword(AbstractUser user, String password);
+
+    Collection<AbstractUser> getAllUsers();
 
 
 }
