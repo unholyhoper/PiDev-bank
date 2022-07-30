@@ -63,12 +63,12 @@ public class AccountRequestServiceImpl implements IAccountRequestService {
     }
 
     @Override
-    public String sendSigningRequest(Long accountRequestId, Date signingDate) {
+    public String sendSigningRequest(Long accountRequestId, String signingDate) {
 
         AccountRequest accountRequest = accountRequestRepository.findById(accountRequestId).get();
-        MailTemplate mailTemplate = new MailTemplate(accountRequest.getUser().getAddress(), Constants.ACCOUNT_SIGNING_MAIL_SUBJECT,
+        MailTemplate mailTemplate = new MailTemplate(accountRequest.getUser().getEmail(), Constants.ACCOUNT_SIGNING_MAIL_SUBJECT,
                 "",Constants.ACCOUNT_SIGNING_MAIL_BODY.replace("${client_name}",
-                accountRequest.getUser().getFirstName()+accountRequest.getUser().getLastName()).replace(
+                accountRequest.getUser().getFirstName()+" "+accountRequest.getUser().getLastName()).replace(
                         "${signing_date}", signingDate.toString()));
 
         ObjectMapper objectMapper  = new ObjectMapper();

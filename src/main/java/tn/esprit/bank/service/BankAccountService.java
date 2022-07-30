@@ -78,7 +78,6 @@ public class BankAccountService implements IBankAccountService {
         Optional<AccountRequest> accountRequestOptional = accountRequestRepository.findById(accountRequestId);
         if(accountRequestOptional.isPresent()){
             AccountRequest accountRequest = accountRequestOptional.get();
-            System.out.println(accountNumberGenerator.generateAccountNumber());
             CurrentAccount currentAccount = new CurrentAccount(accountNumberGenerator.generateAccountNumber(),
                     accountRequest.getUser(),applicationTiming.getInstantDateTime(),BigDecimal.TEN,
                     accountRequest,accountRequest.getInterestRate());

@@ -10,7 +10,7 @@ public interface IAccountRequestService {
      AccountRequest getAccountRequestById(Long id);
      List<AccountRequest> getAllAccountRequests();
      AccountRequest createAccountRequest(AccountRequest accountRequest);
-     String sendSigningRequest(Long accountRequestId, Date signingDate);
+     String sendSigningRequest(Long accountRequestId, String signingDate);
      AccountRequest changeAccountRequestStatusById(Long id, AccountRequestStatus accountRequestStatus);
      int deleteAccountRequestById(Long id);
      void patchAccountRequest(AccountRequest accountRequest);

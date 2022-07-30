@@ -61,7 +61,7 @@ public class UserController {
 
         }
         userService.saveUser(user);
-        user.setEnabled(false);
+        user.setEnabled(true);
         user.setRoles(Sets.newHashSet(roleService.getGuestRole()));
         UserCreatedResponse userCreatedResponse = new UserCreatedResponse(user.getUsername(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getCin());
         return new ResponseEntity<>(userCreatedResponse, HttpStatus.OK);
