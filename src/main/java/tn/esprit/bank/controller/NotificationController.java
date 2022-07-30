@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.bank.entity.Notification;
-import tn.esprit.bank.entity.Transaction;
 import tn.esprit.bank.service.NotificationService;
 import tn.esprit.bank.util.Constants;
 
@@ -36,9 +35,9 @@ public class NotificationController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity createNotification(@RequestBody Notification notification, Transaction transaction) {
+    public ResponseEntity createNotification(@RequestBody Notification notification) {
         try {
-            return ResponseEntity.ok(notificationService.createNotification(notification, transaction));
+            return ResponseEntity.ok(notificationService.createNotification(notification));
         } catch (RuntimeException exception) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exception.getMessage());
         }
@@ -54,8 +53,23 @@ public class NotificationController {
     }
 
     @DeleteMapping("/delete/{Id}")
-    public void deleteNotification(@PathVariable("Id") Long notificationId) {
-        notificationService.deleteNotification(notificationId);
+    public ResponseEntity deleteNotification(@PathVariable("Id") Long notificationId) {
+        try {
+            notificationService.deleteNotification(notificationId);
+            return ResponseEntity.ok("");
+        } catch (RuntimeException exception) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exception.getMessage());
+        }
+    }
+
+    @PostMapping("/markSeen/{Id}")
+    public ResponseEntity markAsSeen(@PathVariable("Id") Long notificationId) {
+        try {
+            notificationService.markAsSeen(notificationId);
+            return ResponseEntity.ok("");
+        } catch (RuntimeException exception) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exception.getMessage());
+        }
     }
 }
 

@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import tn.esprit.bank.entity.BankAccount;
+import tn.esprit.bank.entity.Notification;
 import tn.esprit.bank.entity.Transaction;
 import tn.esprit.bank.enumeration.TransactionStatus;
 import tn.esprit.bank.repository.TransactionRepository;
+import tn.esprit.bank.service.NotificationService;
 import tn.esprit.bank.service.TransactionService;
 
 import java.util.List;
@@ -20,6 +22,10 @@ public class ValidateTransactionBatch {
 
     @Autowired
     TransactionRepository transactionRepository;
+
+    @Autowired
+    NotificationService notificationService;
+    private Object response;
 
     @Scheduled(cron = "0 31 2 * * *")
     public void validateTransaction() {
@@ -35,8 +41,10 @@ public class ValidateTransactionBatch {
                         bankAccountTo.setBalance(bankAccountTo.getBalance().add(transaction.getAmount()));
                     }
                     transaction.setStatus(TransactionStatus.VALIDATED);
-                    transactionRepository.save(transaction);
-
+                    this.response = transactionRepository.save(transaction);
+                    if (this.response != null) {
+                        notificationService.sendNotification(transaction);
+                    }
                 }
         ).collect(Collectors.toList());
 
