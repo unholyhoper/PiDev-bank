@@ -1,27 +1,30 @@
 package tn.esprit.bank.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.bank.entity.AbstractUser;
 import tn.esprit.bank.entity.AccountRequest;
-import tn.esprit.bank.entity.MoralUser;
 import tn.esprit.bank.enumeration.AccountRequestStatus;
-import tn.esprit.bank.repository.UserRepository;
+import tn.esprit.bank.model.MailTemplate;
 import tn.esprit.bank.service.AccountRequestServiceImpl;
+import tn.esprit.bank.util.Constants;
+import tn.esprit.bank.util.JmsSender;
 
 import java.sql.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/accountRequest")
+@RequestMapping(Constants.APP_ROOT +"/accountRequest")
 public class AccountRequestController {
 
     @Autowired
     AccountRequestServiceImpl accountRequestService;
-
 
 
     @GetMapping("/getAllAccountRequest")
@@ -35,9 +38,10 @@ public class AccountRequestController {
     }
 
     @PostMapping("/createAccountRequest")
-    public ResponseEntity<AccountRequest> createAccountRequest(@RequestBody AccountRequest accountRequest){
+    public ResponseEntity<AccountRequest> createAccountRequest(@RequestBody AccountRequest accountRequest ,
+                                                               @AuthenticationPrincipal Object principal){
+        accountRequest.setUser((AbstractUser) principal);
      try {
-
          accountRequestService.createAccountRequest(accountRequest);
          return ResponseEntity.ok(accountRequest);
      }catch (Exception e){
@@ -77,7 +81,7 @@ public class AccountRequestController {
     }
 
     @PostMapping("/setAccountRequestStatus")
-    public ResponseEntity<AccountRequest> createAccountRequest(@RequestParam  Long id, @RequestParam AccountRequestStatus accountRequestStatus){
+    public ResponseEntity<AccountRequest> setAccountRequestStatus(@RequestParam  Long id, @RequestParam AccountRequestStatus accountRequestStatus){
         try {
             accountRequestService.changeAccountRequestStatusById(id,accountRequestStatus);
             return ResponseEntity.ok().build();
@@ -89,7 +93,7 @@ public class AccountRequestController {
 
 
     @PostMapping("/sendSigningMail")
-    public ResponseEntity<String> sendSigningMail(@RequestParam Long accountRequestId, @RequestParam Date signingDate) {
+    public ResponseEntity<String> sendSigningMail(@RequestParam Long accountRequestId, @RequestParam String  signingDate) {
             String x = accountRequestService.sendSigningRequest(accountRequestId,signingDate);
             return ResponseEntity.ok(x);
     }

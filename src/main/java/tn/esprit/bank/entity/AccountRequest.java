@@ -12,7 +12,8 @@ import javax.persistence.*;
 import java.util.List;
 
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 public class AccountRequest {
 
