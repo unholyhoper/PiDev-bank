@@ -16,4 +16,5 @@ public interface INotificationService {
 
     void deleteNotification(Long notificationId);
 
+    void markAsSeen(Long notificationId);
 }

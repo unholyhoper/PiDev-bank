@@ -7,10 +7,12 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import tn.esprit.bank.config.JsonLogging;
 import tn.esprit.bank.entity.BankAccount;
+import tn.esprit.bank.entity.Notification;
 import tn.esprit.bank.entity.Transaction;
 import tn.esprit.bank.enumeration.TransactionStatus;
 import tn.esprit.bank.repository.BankAccountRepository;
 import tn.esprit.bank.repository.TransactionRepository;
+import tn.esprit.bank.service.NotificationService;
 import tn.esprit.bank.service.TransactionService;
 
 import java.util.List;
@@ -25,10 +27,11 @@ public class ValidateTransactionBatch {
     @Autowired
     TransactionRepository transactionRepository;
 
-   ;
-
     private static final Logger logger = LoggerFactory.getLogger(ValidateTransactionBatch.class);
 
+    @Autowired
+    NotificationService notificationService;
+    private Object response;
 
     @Scheduled(cron = "0 * * * * *")
     public void validateTransaction() {
@@ -48,8 +51,10 @@ public class ValidateTransactionBatch {
 
                     }
                     transaction.setStatus(TransactionStatus.VALIDATED);
-                    transactionRepository.save(transaction);
-
+                    this.response = transactionRepository.save(transaction);
+                    if (this.response != null) {
+                        notificationService.sendNotification(transaction);
+                    }
                 }
         ).collect(Collectors.toList());
         logger.info("End Validate Transaction Batch");
