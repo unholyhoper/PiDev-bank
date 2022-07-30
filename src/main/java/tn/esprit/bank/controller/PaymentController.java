@@ -50,7 +50,7 @@ public class PaymentController {
                                         .setPriceData(
                                                 SessionCreateParams.LineItem.PriceData.builder()
                                                         .setCurrency(chargeRequest.getCurrency())
-                                                        .setUnitAmount(chargeRequest.getAmount()*100)
+                                                        .setUnitAmount(chargeRequest.getAmount() * 100)
                                                         .setProductData(
                                                                 SessionCreateParams.LineItem.PriceData.ProductData.builder()
                                                                         .setName(chargeRequest.getProductName())
@@ -63,23 +63,18 @@ public class PaymentController {
 
         return session.getUrl();
     }
+
     @PostMapping("/listCheckout")
     public List<PaiementCheckOutVO> listCheckout()
             throws StripeException {
         Map<String, Object> params = new HashMap<>();
-        params.put("limit", 100);
 
         SessionCollection sessions = Session.list(params);
         return sessions.getData().stream().map(session ->
-                new PaiementCheckOutVO(session.getId(),session.getPaymentIntent(),session.getPaymentStatus(),session.getStatus(),session.getClientReferenceId())
+                new PaiementCheckOutVO(session.getId(), session.getPaymentIntent(), session.getPaymentStatus(), session.getStatus(), session.getClientReferenceId())
         ).collect(Collectors.toList());
 
     }
 
 
-    @ExceptionHandler(StripeException.class)
-    public String handleError(Model model, StripeException ex) {
-        model.addAttribute("error", ex.getMessage());
-        return "result";
-    }
 }

@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import tn.esprit.bank.entity.BankAccount;
+import tn.esprit.bank.entity.CurrentAccount;
 import tn.esprit.bank.entity.Transaction;
 import tn.esprit.bank.entity.TransactionPeriodic;
 import tn.esprit.bank.enumeration.Periodicity;
 import tn.esprit.bank.enumeration.TransactionStatus;
 import tn.esprit.bank.enumeration.TransactionType;
 import tn.esprit.bank.repository.BankAccountRepository;
+import tn.esprit.bank.repository.CurrentAccountRepository;
 import tn.esprit.bank.repository.TransactionPeriodicRepository;
 import tn.esprit.bank.repository.TransactionRepository;
 import tn.esprit.bank.vo.TransactionPeriodicVO;
@@ -32,7 +34,7 @@ public class TransactionPeriodicService implements ITransactionPeriodicService {
     TransactionPeriodicRepository transactionPeriodicRepository;
 
     @Autowired
-    BankAccountRepository bankAccountRepository;
+    CurrentAccountRepository bankAccountRepository;
 
     @Autowired
     TransactionPeriodicService transactionService;
@@ -42,11 +44,11 @@ public class TransactionPeriodicService implements ITransactionPeriodicService {
 
     public TransactionPeriodic createPeriodicTransaction(TransactionPeriodicVO transactionPeriodicVO) {
         checkTransaction(transactionPeriodicVO);
-        BankAccount bankAccountFrom = bankAccountRepository.findBankAccountByAccountNumber(transactionPeriodicVO.getAccountNumberFrom()).orElseThrow(() ->
+        CurrentAccount bankAccountFrom = bankAccountRepository.findCurrentAccountByAccountNumber(transactionPeriodicVO.getAccountNumberFrom()).orElseThrow(() ->
                 new RuntimeException("There is no Bank account found with ID = " + transactionPeriodicVO.getAccountNumberFrom())
         );
 
-        BankAccount bankAccountTo = bankAccountRepository.findBankAccountByAccountNumber(transactionPeriodicVO.getAccountNumberTo()).orElseThrow(() ->
+        CurrentAccount bankAccountTo = bankAccountRepository.findCurrentAccountByAccountNumber(transactionPeriodicVO.getAccountNumberTo()).orElseThrow(() ->
                 new RuntimeException("There is no Bank Account found with ID = " + transactionPeriodicVO.getAccountNumberTo())
         );
         TransactionPeriodic transaction = new TransactionPeriodic();

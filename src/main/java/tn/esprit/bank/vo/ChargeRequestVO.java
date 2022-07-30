@@ -11,7 +11,6 @@ public class ChargeRequestVO {
     private long quantity;
     private String currency;
     private String userAccountNo;
-    private String stripeToken;
     private String productName;
 
 }
