@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,8 @@ import tn.esprit.bank.entity.MoralUser;
 import tn.esprit.bank.exception.UserNotFoundException;
 import tn.esprit.bank.model.GenericResponse;
 import tn.esprit.bank.model.MailTemplate;
+import tn.esprit.bank.model.UserCreatedResponse;
+import tn.esprit.bank.model.UserResponse;
 import tn.esprit.bank.model.user.ChangePasswordRequest;
 import tn.esprit.bank.security.ISecurityUserService;
 import tn.esprit.bank.service.RoleService;
@@ -25,9 +28,7 @@ import tn.esprit.bank.util.JmsSender;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @RestController()
 @RequestMapping(Constants.APP_ROOT + "/user")
@@ -51,7 +52,7 @@ public class UserController {
     private ISecurityUserService securityUserService;
 
     @PostMapping("/register")
-    private ResponseEntity<AbstractUser> saveUser(@RequestBody MoralUser user) {
+    private ResponseEntity<Object> saveUser(@RequestBody MoralUser user) {
         if (userService.getUserByCin(user.getCin()) != null) {
             return new ResponseEntity("Cin already exists", HttpStatus.FORBIDDEN);
         }
@@ -59,13 +60,16 @@ public class UserController {
             return new ResponseEntity("Email address invalid", HttpStatus.FORBIDDEN);
 
         }
+        userService.saveUser(user);
         user.setEnabled(false);
         user.setRoles(Sets.newHashSet(roleService.getGuestRole()));
-        return new ResponseEntity<AbstractUser>(userService.saveUser(user), HttpStatus.OK);
+        UserCreatedResponse userCreatedResponse = new UserCreatedResponse(user.getUsername(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getCin());
+        return new ResponseEntity<>(userCreatedResponse, HttpStatus.OK);
 
     }
 
     @PutMapping("/activate/{cin}")
+//    @Secured({"ROLE_ADMIN"})
     private ResponseEntity<AbstractUser> activateUser(@PathVariable("cin") Long cin) {
         AbstractUser user = userService.getUserById(cin);
         if (user == null) {
@@ -78,6 +82,7 @@ public class UserController {
     }
 
     @PutMapping("/deactivate/{cin}")
+//    @Secured({"ROLE_ADMIN"})
     private ResponseEntity<AbstractUser> deactivateUser(@PathVariable("cin") Long cin) {
         AbstractUser user = userService.getUserById(cin);
         if (user == null) {
@@ -176,4 +181,14 @@ public class UserController {
         }
     }
 
+    @GetMapping("/users")
+    private Collection<UserResponse> getUsers() {
+        Collection<UserResponse> userCreatedResponses = new ArrayList<>();
+        Collection<AbstractUser> users = userService.getAllUsers();
+        for (AbstractUser user : users) {
+            UserResponse userCreatedResponse = new UserResponse(user.getUsername(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getCin(),user.isEnabled());
+            userCreatedResponses.add(userCreatedResponse);
+        }
+        return userCreatedResponses;
+    }
 }

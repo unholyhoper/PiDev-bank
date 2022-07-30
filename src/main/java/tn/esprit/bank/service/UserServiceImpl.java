@@ -9,6 +9,7 @@ import tn.esprit.bank.entity.PasswordResetToken;
 import tn.esprit.bank.repository.PasswordResetTokenRepository;
 import tn.esprit.bank.repository.UserRepository;
 
+import java.util.Collection;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -93,5 +94,10 @@ public class UserServiceImpl implements UserService {
     public void changeUserPassword(final AbstractUser user, final String password) {
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
+    }
+
+    @Override
+    public Collection<AbstractUser> getAllUsers() {
+        return userRepository.findAll();
     }
 }

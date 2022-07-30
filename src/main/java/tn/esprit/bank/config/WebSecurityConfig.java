@@ -58,15 +58,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // We don't need CSRF for this example
         httpSecurity.csrf().disable()
                 // dont authenticate this particular request
-                .authorizeRequests().antMatchers("/authenticate").permitAll()
-                .antMatchers(APP_ROOT+"/user/register").permitAll()
-                .antMatchers(APP_ROOT+"/user/changePassword").permitAll()
-                .antMatchers(APP_ROOT+"/user/**").permitAll()
-                .antMatchers(APP_ROOT+"/user/activate",APP_ROOT+"/user/deactivate").hasAuthority("BANKER")
-                .antMatchers("gestionbancaire/**").permitAll().
+                .authorizeRequests()
+//                .antMatchers(APP_ROOT+"/user/**").permitAll()
+//                .antMatchers(APP_ROOT+"/user/deactivate").hasAuthority("BANKER")
+//                .antMatchers(APP_ROOT+"/user/users").hasAuthority("BANKER")
 
+                .antMatchers(APP_ROOT+"/user/activate/**").hasRole("BANKER")
+//                .antMatchers(APP_ROOT+"/user/activate",APP_ROOT+"/user/deactivate",APP_ROOT+"/user/users").hasRole("BANKER")
+//                .antMatchers(APP_ROOT+"/user/**/**").permitAll()
+                .antMatchers(APP_ROOT+"/user/changePassword/**").permitAll()
+                .antMatchers(APP_ROOT+"/user/resetPassword/**").permitAll()
+                .antMatchers(APP_ROOT+"/user/updatePassword/**").permitAll()
+                .antMatchers("/authenticate").permitAll()
+                .anyRequest().authenticated()
                 // all other requests need to be authenticated
-                and().
+                .and().
 
                 // make sure we use stateless session; session won't be used to
                 // store user's state.
