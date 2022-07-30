@@ -6,25 +6,19 @@ import tn.esprit.bank.enumeration.LoanStatus;
 
 import javax.persistence.*;
 
-
 @Data
 @NoArgsConstructor
 @Entity
-public class Loan {
-
+public class LoanTranches {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    private Double amount;
-    private String interest;
-    private Integer duration;
-    private String payment;
+    private String amount;
+    private String date;
     @Column(name = "loanStatus")
-    @Enumerated(EnumType.STRING)
-    private LoanStatus loanStatus;
+//    @Enumerated(EnumType.STRING)
+    private LoanStatus loanStatus= LoanStatus.IN_PROGRESS;
 
     @ManyToOne
-    private CurrentAccount bankAccount;
-
+    private Loan loan;
 }

@@ -18,9 +18,11 @@ public class Answer {
 
 	 @ManyToOne
 	 private AbstractUser user;
-
-
+	 
 	 @OneToOne
+	 @JoinColumn(name="fk_question_id")
 	 private Question question;
 
+
+	
 }
